@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -15,29 +16,29 @@ import javax.persistence.Table;
 public class UserEntity extends BaseEntity {
 
 	@Column(name = "username")
-	private String userName;
+	private String username;
 
 	@Column
 	private String password;
 
 	@Column(name = "fullname")
-	private String fullName;
+	private String fullname;
 
 	@Column
 	private Integer status;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "user_role", 
 				joinColumns = @JoinColumn(name = "user_id"), 
 				inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private List<RoleEntity> roles = new ArrayList<>();
 
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUserName(String username) {
+		this.username = username;
 	}
 
 	public String getPassword() {
@@ -48,12 +49,12 @@ public class UserEntity extends BaseEntity {
 		this.password = password;
 	}
 
-	public String getFullName() {
-		return fullName;
+	public String getFullname() {
+		return fullname;
 	}
 
-	public void setFullName(String fullName) {
-		this.fullName = fullName;
+	public void setFullname(String fullname) {
+		this.fullname = fullname;
 	}
 
 	public Integer getStatus() {
