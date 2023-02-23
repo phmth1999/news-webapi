@@ -4,15 +4,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class testAPI {
+public class AdminAPI {
 	
-	@RequestMapping("/hellouser")
-	public String getUser()
-	{
-		return "Hello User";
-	}
-	
-	@RequestMapping("/helloadmin")
+	@RequestMapping("/admin")
 	public String getAdmin()
 	{
 		return "Hello Admin";

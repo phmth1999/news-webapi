@@ -33,10 +33,10 @@ public class JwtProvider {
 		UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
 		Map<String, Object> claims = new HashMap<>();
 		Collection<? extends GrantedAuthority> roles = userPrinciple.getAuthorities();
-		if (roles.contains(new SimpleGrantedAuthority("admin"))) {
+		if (roles.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
 			claims.put("isAdmin", true);
 		}
-		if (roles.contains(new SimpleGrantedAuthority("user"))) {
+		if (roles.contains(new SimpleGrantedAuthority("ROLE_USER"))) {
 			claims.put("isUser", true);
 		}
 		return Jwts.builder().setClaims(claims).setSubject(userPrinciple.getUsername()).setIssuedAt(new Date())
@@ -80,11 +80,11 @@ public class JwtProvider {
 		Boolean isUser = claims.get("isUser", Boolean.class);
 
 		if (isAdmin != null && isAdmin) {
-			roles = Arrays.asList(new SimpleGrantedAuthority("admin"));
+			roles = Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN"));
 		}
 
-		if (isUser != null && isAdmin) {
-			roles = Arrays.asList(new SimpleGrantedAuthority("user"));
+		if (isUser != null && isUser) {
+			roles = Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
 		}
 		return roles;
 

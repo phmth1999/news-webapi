@@ -1,6 +1,7 @@
 package com.springboot.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -22,6 +23,7 @@ import com.springboot.service.INewService;
 public class NewAPI {
 	
 	@Autowired
+	@Qualifier("NewService")
 	private INewService newService;
 	
 	@GetMapping(value = "/admin/new")

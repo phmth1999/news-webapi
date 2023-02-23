@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,7 @@ import com.springboot.repository.NewRepository;
 import com.springboot.service.INewService;
 
 @Service
+@Qualifier("NewService")
 public class NewService implements INewService {
 	
 	@Autowired

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -30,13 +31,19 @@ import com.springboot.service.IUserService;
 @RestController
 public class AuthAPI {
 	@Autowired
+	@Qualifier("UserService")
 	private IUserService userService;
+	
 	@Autowired
+	@Qualifier("RoleService")
 	private IRoleService roleService;
+	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
 	@Autowired
 	private AuthenticationManager authenticationManager;
+	
 	@Autowired
 	private JwtProvider jwtProvider;
 	
@@ -53,26 +60,26 @@ public class AuthAPI {
 		List<String> strRoles = signupForm.getRoles();
 		List<RoleEntity> newRoles = new ArrayList<>();
 		if(strRoles.size() < 0) {
-			RoleEntity userRole = roleService.findOneByCode("user");
+			RoleEntity userRole = roleService.findOneByCode("ROLE_USER");
 			if(userRole != null) {
 				newRoles.add(userRole);
 			}
 		}else {
 			strRoles.forEach(role -> {
 				switch (role) {
-				case "admin":
+				case "ROLE_ADMIN":
 					RoleEntity adminRole = roleService.findOneByCode(role);
 					if(adminRole != null) {
 						newRoles.add(adminRole);
 					}
 					break;
-				case "staff":
+				case "ROLE_STAFF":
 					RoleEntity staffRole = roleService.findOneByCode(role);
 					if(staffRole != null) {
 						newRoles.add(staffRole);
 					}
 					break;
-				case "user":
+				case "ROLE_USER":
 					RoleEntity userRole = roleService.findOneByCode(role);
 					if(userRole != null) {
 						newRoles.add(userRole);
@@ -82,8 +89,8 @@ public class AuthAPI {
 			});
 		}
 		newUser.setRoles(newRoles);
-		userService.save(newUser);
-		return new ResponseEntity<>(new ResponseMessage("Create success!"), HttpStatus.OK);
+		UserEntity userEntity = userService.save(newUser);
+		return new ResponseEntity<>(new ResponseMessage("Create success!",userEntity), HttpStatus.OK);
 	}
 	@PostMapping(value = "/auth/signin")
 	public ResponseEntity<?> login(@RequestBody SigninForm signinForm){

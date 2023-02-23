@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "role")
 public class RoleEntity extends BaseEntity {
@@ -19,6 +21,7 @@ public class RoleEntity extends BaseEntity {
 	private String name;
 	
 	@ManyToMany(mappedBy = "roles")
+	@JsonIgnore
     private List<UserEntity> users = new ArrayList<>();
 
 	public String getCode() {
